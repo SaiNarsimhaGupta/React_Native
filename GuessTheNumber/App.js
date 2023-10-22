@@ -1,20 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, ImageBackground } from "react-native";
+import StartGameScreen from "./screens/StartGameScreen";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Guess The Number Game !!!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <LinearGradient colors={["#4e0329", "#ddb52f"]} style={styles.backround}>
+      <ImageBackground
+        source={require("./assets/riho-kroll-m4sGYaHYN5o-unsplash.jpg")}
+        resizeMode="cover"
+        style={styles.backround} 
+        imageStyle={styles.backroundImage}
+      >
+        <StartGameScreen></StartGameScreen>
+      </ImageBackground>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  backround: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  backroundImage: {
+    opacity: 0.4
   },
 });

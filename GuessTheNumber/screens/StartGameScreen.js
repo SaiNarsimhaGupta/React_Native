@@ -1,4 +1,13 @@
-import { StyleSheet, View, TextInput, Alert } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Alert,
+  Dimensions,
+  useWindowDimensions,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "react-native";
 import React, { useState } from "react";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import Colors from "../constants/Colors";
@@ -8,6 +17,8 @@ import InstructionText from "../components/ui/InstructionText";
 
 export default function StartGameScreen({ onPickNumber }) {
   const [enteredNumber, setEnteredNumber] = useState("");
+
+  const { width, height } = useWindowDimensions(); // React hook for the dynamic device dimensions
 
   function numberInputHandler(enteredNumber) {
     setEnteredNumber(enteredNumber);
@@ -30,41 +41,50 @@ export default function StartGameScreen({ onPickNumber }) {
 
     onPickNumber(chosenNumber);
   }
+  const marginTopDistance = height < 380 ? 30 : 100;
   return (
-    <View  style={styles.rootContainer}>
-      <Title>Guess My Number</Title>
-      <Card>
-        <InstructionText>Enter a Number</InstructionText>
-        <TextInput // Any thing that entered in the testinput is string only , even for number input also
-          style={styles.textInput}
-          maxLength={2}
-          keyboardType="number-pad"
-          autoCapitalize="none"
-          autoCorrect={false}
-          onChangeText={numberInputHandler}
-          value={enteredNumber}
-        />
-        {/* If  maxLength = "2" This Type of string assignment restrict for text input only not the number
+    <ScrollView style={styles.screen}>
+      <KeyboardAvoidingView style={styles.screen} behavior="position">
+        <View style={[styles.rootContainer, { marginTop: marginTopDistance }]}>
+          <Title>Guess My Number</Title>
+          <Card>
+            <InstructionText>Enter a Number</InstructionText>
+            <TextInput // Any thing that entered in the testinput is string only , even for number input also
+              style={styles.textInput}
+              maxLength={2}
+              keyboardType="number-pad"
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={numberInputHandler}
+              value={enteredNumber}
+            />
+            {/* If  maxLength = "2" This Type of string assignment restrict for text input only not the number
          maxLength={2} -- works for text and number also*/}
-        <View style={styles.buttonsContainer}>
-          <View style={styles.buttonContainer}>
-            <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
-          </View>
-          <View style={styles.buttonContainer}>
-            <PrimaryButton onPress={confirmInputHandler}>Confirm</PrimaryButton>
-          </View>
+            <View style={styles.buttonsContainer}>
+              <View style={styles.buttonContainer}>
+                <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
+              </View>
+              <View style={styles.buttonContainer}>
+                <PrimaryButton onPress={confirmInputHandler}>
+                  Confirm
+                </PrimaryButton>
+              </View>
+            </View>
+          </Card>
         </View>
-      </Card>
-    </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
-
+const deviceHeight = Dimensions.get("window").height;
 const styles = StyleSheet.create({
-  rootContainer:{
-    flex:1,
-    marginTop:100,
-    alignItems:'center',
-  
+  screen: {
+    flex: 1,
+  },
+  rootContainer: {
+    flex: 1,
+    // marginTop:deviceHeight <380 ? 30:100,
+    alignItems: "center",
   },
 
   textInput: {

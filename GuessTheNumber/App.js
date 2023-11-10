@@ -6,6 +6,7 @@ import GameScreen from "./screens/GameScreen";
 import Colors from "./constants/Colors";
 import GameOverScreen from "./screens/GameOverScreen";
 import { useFonts } from "expo-font";
+import { StatusBar } from "expo-status-bar";
 
 export default function App() {
   const [userNumber, setUserNumber] = useState();
@@ -30,7 +31,6 @@ export default function App() {
   function startNewGameHandler() {
     setUserNumber(null);
     setGuessRounds(0);
-
   }
 
   let screen = <StartGameScreen onPickNumber={pickedNumberHandler} />;
@@ -52,19 +52,22 @@ export default function App() {
   }
 
   return (
-    <LinearGradient
-      colors={[Colors.primary700, Colors.secondaryColour]}
-      style={styles.backround}
-    >
-      <ImageBackground
-        source={require("./assets/riho-kroll-m4sGYaHYN5o-unsplash.jpg")}
-        resizeMode="cover"
+    <>
+    <StatusBar style='light' />
+      <LinearGradient
+        colors={[Colors.primary700, Colors.secondaryColour]}
         style={styles.backround}
-        imageStyle={styles.backroundImage}
       >
-        <SafeAreaView style={styles.backround}>{screen}</SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+        <ImageBackground
+          source={require("./assets/riho-kroll-m4sGYaHYN5o-unsplash.jpg")}
+          resizeMode="cover"
+          style={styles.backround}
+          imageStyle={styles.backroundImage}
+        >
+          <SafeAreaView style={styles.backround}>{screen}</SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
+    </>
   );
 }
 
